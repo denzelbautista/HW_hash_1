@@ -34,7 +34,7 @@ public:
         return false;
     }
 
-    bool Contains(T data) {
+    bool Contains(T data) const {
         Node<int>* temp = keys.getHead();
         while (temp != nullptr) {
             if (table.find(temp->data) == data) {
@@ -46,13 +46,42 @@ public:
     }
 
     Set Union(const Set &other) {
+        Set result;
+        Node<int>* temp = keys.getHead();
+        while (temp != nullptr) {
+            result.Insert(table.at(temp->data));
+            temp = temp->next;
+        }
+        temp = other.keys.getHead();
+        while (temp != nullptr) {
+            result.Insert(other.table.at(temp->data));
+            temp = temp->next;
+        }
+        return result;
     }
 
-
     Set Intersect(const Set &other) {
+        Set result;
+        Node<int>* temp = keys.getHead();
+        while (temp != nullptr) {
+            if (other.Contains(table.at(temp->data))) {
+                result.Insert(table.at(temp->data));
+            }
+            temp = temp->next;
+        }
+        return result;
     }
 
     Set Difference(const Set &other) {
+        Set result;
+        Node<int>* temp = keys.getHead();
+        while (temp != nullptr) {
+            if (!other.Contains(table.at(temp->data))) {
+                result.Insert(table.at(temp->data));
+            }
+            temp = temp->next;
+        }
+        return result;
     }
 
 
@@ -71,29 +100,48 @@ public:
 int main() {
     Set<int> mySet;
 
-    // Iinserción
+    // Prueba de inserción
     std::cout << "Insertando elementos: 8, 2, 3, 0" << std::endl;
     mySet.Insert(8);
     mySet.Insert(2);
     mySet.Insert(3);
     mySet.Insert(0);
-    std::cout << "Conjunto después de inserciones: ";
+    std::cout << "Conjunto despues de inserciones: ";
     mySet.Print();
 
-    // Contención
-    std::cout << "Contiene 8? " << (mySet.Contains(8) ? "Sí" : "No") << std::endl;
-    std::cout << "Contiene 5? " << (mySet.Contains(5) ? "Sí" : "No") << std::endl;
+    // Prueba de contención
+    std::cout << "Contiene 8? " << (mySet.Contains(8) ? "Si" : "No") << std::endl;
+    std::cout << "Contiene 5? " << (mySet.Contains(5) ? "Si" : "No") << std::endl;
 
-    // Eliminación
+    // Prueba de eliminación
     std::cout << "Eliminando elemento 2" << std::endl;
     mySet.Remove(2);
-    std::cout << "Conjunto después de eliminar el elemento 2: ";
+    std::cout << "Conjunto despues de eliminar el elemento 2: ";
     mySet.Print();
 
-    // Verificación
-    std::cout << "Contiene 2? " << (mySet.Contains(2) ? "Sí" : "No") << std::endl;
+    // Verificar si un elemento eliminado ya no está
+    std::cout << "Contiene 2? " << (mySet.Contains(2) ? "Si" : "No") << std::endl;
 
 
+    // Creating another set for testing
+    Set<int> anotherSet;
+    anotherSet.Insert(3);
+    anotherSet.Insert(4);
+    anotherSet.Insert(5);
+    std::cout << "Another set: ";
+    anotherSet.Print();
+
+    Set<int> unionSet = mySet.Union(anotherSet);
+    std::cout << "Union de los 2 sets: ";
+    unionSet.Print();
+
+    Set<int> intersectSet = mySet.Intersect(anotherSet);
+    std::cout << "Intersection de los 2 sets: ";
+    intersectSet.Print();
+
+    Set<int> differenceSet = mySet.Difference(anotherSet);
+    std::cout << "Difference de los 2 sets: ";
+    differenceSet.Print();
 
     return 0;
 }
