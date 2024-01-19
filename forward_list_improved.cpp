@@ -148,8 +148,8 @@ void sort() {
         throw std::runtime_error("Error: List is empty");
     }
 
-    std::function<Node<T>*(Node<T>*)> mergeSort;
-    std::function<Node<T>*(Node<T>*, Node<T>*)> sortedMerge;
+    std::function<Node<T>(Node<T>)> mergeSort;
+    std::function<Node<T>(Node<T>, Node<T>*)> sortedMerge;
 
     sortedMerge = [&](Node<T>* a, Node<T>* b) -> Node<T>* {
         Node<T>* result = nullptr;
@@ -215,5 +215,61 @@ void sort() {
             temp = temp->next;
         }
         std::cout << std::endl;
+    }
+
+    void insert_at(int pos, T data){
+        if (pos < 0){
+            return;
+        }
+
+        if (head == nullptr){
+            push_back(data);
+            return;
+        }
+
+        Node<T>* temp = head;
+
+        for (int count = 0; temp != nullptr && count < pos - 1; count++) {
+            temp = temp->next;
+        }
+
+        if (temp == nullptr) {
+            throw std::out_of_range("Index is out of range");
+        }
+
+        if (temp == head){
+            push_front(data);
+            return;
+        }
+
+        Node<T>* newNode = new Node<T>(data, temp->next);
+        temp = newNode;
+    }
+
+    void delete_at(int pos){
+        if (pos < 0 || head == nullptr){
+            return;
+        }
+
+        if (pos == 0 && head != nullptr){
+            Node<T>* temp = head->next;
+            delete head;
+            head = temp;
+            return;
+        }
+
+        Node<T>* temp = head;
+
+        for (int count = 0; count < pos - 1; count++) {
+            temp = temp->next;
+        }
+
+        if (temp == nullptr) {
+            throw std::out_of_range("Index is out of range");
+        }
+
+        Node<T>* nodo = temp->next;
+        temp->next = temp->next->next;
+        delete nodo;
     }
 };
