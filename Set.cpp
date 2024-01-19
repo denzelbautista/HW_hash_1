@@ -46,54 +46,13 @@ public:
     }
 
     Set Union(const Set &other) {
-        Set<T> result;
-
-        // Insertar elementos del conjunto actual
-        Node<int>* temp = this->keys.getHead();
-        while (temp != nullptr) {
-            result.Insert(this->table.find(temp->data));
-            temp = temp->next;
-        }
-
-        // Insertar elementos del otro conjunto
-        temp = other.keys.getHead();
-        while (temp != nullptr) {
-            result.Insert(other.table.find(temp->data));
-            temp = temp->next;
-        }
-
-        return result;
     }
 
 
     Set Intersect(const Set &other) {
-        Set<T> result;
-
-        Node<int>* temp = this->keys.getHead();
-        while (temp != nullptr) {
-            T element = this->table.find(temp->data);
-            if (other.Contains(element)) {
-                result.Insert(element);
-            }
-            temp = temp->next;
-        }
-
-        return result;
     }
 
     Set Difference(const Set &other) {
-        Set<T> result;
-
-        Node<int>* temp = this->keys.getHead();
-        while (temp != nullptr) {
-            T element = this->table.find(temp->data);
-            if (!other.Contains(element)) {
-                result.Insert(element);
-            }
-            temp = temp->next;
-        }
-
-        return result;
     }
 
 
@@ -112,7 +71,7 @@ public:
 int main() {
     Set<int> mySet;
 
-    // Prueba de inserción
+    // Iinserción
     std::cout << "Insertando elementos: 8, 2, 3, 0" << std::endl;
     mySet.Insert(8);
     mySet.Insert(2);
@@ -121,17 +80,17 @@ int main() {
     std::cout << "Conjunto después de inserciones: ";
     mySet.Print();
 
-    // Prueba de contención
+    // Contención
     std::cout << "Contiene 8? " << (mySet.Contains(8) ? "Sí" : "No") << std::endl;
     std::cout << "Contiene 5? " << (mySet.Contains(5) ? "Sí" : "No") << std::endl;
 
-    // Prueba de eliminación
+    // Eliminación
     std::cout << "Eliminando elemento 2" << std::endl;
     mySet.Remove(2);
     std::cout << "Conjunto después de eliminar el elemento 2: ";
     mySet.Print();
 
-    // Verificar si un elemento eliminado ya no está
+    // Verificación
     std::cout << "Contiene 2? " << (mySet.Contains(2) ? "Sí" : "No") << std::endl;
 
 
